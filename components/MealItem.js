@@ -7,6 +7,7 @@ import {
   View,
   Platform,
 } from "react-native";
+import MealBadges from "./MealBadges";
 
 export default function MealItem({ item }) {
   const navigation = useNavigation();
@@ -32,13 +33,7 @@ export default function MealItem({ item }) {
             }}
           />
           <Text style={styles.title}>{item.title}</Text>
-          <View style={styles.badgeContainer}>
-            <Text style={[styles.badge, { backgroundColor: "green" }]}>
-              {item.duration}M
-            </Text>
-            <Text style={styles.badge}>{item.complexity.toUpperCase()}</Text>
-            <Text style={styles.badge}>{item.affordability.toUpperCase()}</Text>
-          </View>
+          <MealBadges item={item} />
         </Pressable>
       </View>
     </View>
@@ -60,29 +55,18 @@ const styles = StyleSheet.create({
   innerContainer: {
     borderRadius: 8,
     overflow: "hidden",
+    padding: 16,
   },
   image: {
     width: "100%",
     height: 200,
+    borderRadius: 8,
   },
   title: {
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 20,
     margin: 8,
-  },
-  badgeContainer: {
-    flexDirection: "row",
-    gap: 5,
-    padding: 10,
-  },
-  badge: {
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingVertical: 2,
-    paddingHorizontal: 4,
-    fontWeight: "semibold",
-    fontSize: 16,
   },
   buttonPressed: {
     opacity: 0.5,
