@@ -13,8 +13,11 @@ export default function MealItem({ item }) {
   const navigation = useNavigation();
 
   function onPressHandler() {
-    navigation.navigate("MealItemScreen", {
-      mealId: item.id,
+    navigation.navigate("MealsTab", {
+      screen: "MealItemScreen",
+      params: {
+        mealId: item.id,
+      },
     });
   }
 

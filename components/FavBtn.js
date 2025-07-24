@@ -2,13 +2,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 
-export default function FavBtn() {
-  const [isFaved, setIsFaved] = useState(false);
-
-  function onHandlePress() {
-    setIsFaved(!isFaved);
-  }
-
+export default function FavBtn({ isFaved, onHandlePress }) {
   return (
     <View>
       <Pressable

@@ -8,6 +8,8 @@ import MealItemScreen from "./screens/MealItemScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "./screens/ProfileScreen";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FavouritesContextProvider from "./store/context/favourites-context";
+import FavouritesScreen from "./screens/FavouritesScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,46 +31,63 @@ function MealsStack() {
   );
 }
 
+function ProfileStack() {
+  return (
+    <Stack.Navigator initialRouteName="Profile">
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: "Profile", headerShown: false }}
+      />
+      <Stack.Screen name="Favourites" component={FavouritesScreen} />
+    </Stack.Navigator>
+  );
+}
+
 export default function App() {
   return (
     <>
       <StatusBar style="dark" />
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: "green",
-          }}
-        >
-          <Tab.Screen
-            name="MealsTab"
-            component={MealsStack}
-            options={{
-              headerShown: false,
-              title: "Meals",
-              tabBarIcon: ({ size, color }) => (
-                <MaterialCommunityIcons
-                  name="food-apple"
-                  size={size}
-                  color={color}
-                />
-              ),
+      <FavouritesContextProvider>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarActiveTintColor: "green",
             }}
-          />
-          <Tab.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{
-              tabBarIcon: ({ size, color }) => (
-                <MaterialCommunityIcons
-                  name="account"
-                  size={size}
-                  color={color}
-                />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
+          >
+            <Tab.Screen
+              name="MealsTab"
+              component={MealsStack}
+              options={{
+                headerShown: false,
+                title: "Meals",
+                tabBarIcon: ({ size, color }) => (
+                  <MaterialCommunityIcons
+                    name="food-apple"
+                    size={size}
+                    color={color}
+                  />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="ProfileTab"
+              component={ProfileStack}
+              options={{
+                headerShown: false,
+                title: "Profile",
+                tabBarIcon: ({ size, color }) => (
+                  <MaterialCommunityIcons
+                    name="account"
+                    size={size}
+                    color={color}
+                  />
+                ),
+              }}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </FavouritesContextProvider>
     </>
   );
 }

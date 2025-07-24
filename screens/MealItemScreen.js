@@ -1,21 +1,36 @@
-import { useLayoutEffect } from "react";
+import { useContext, useLayoutEffect } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import MealBadges from "../components/MealBadges";
 import FavBtn from "../components/FavBtn";
+import { FavouritesContext } from "../store/context/favourites-context";
 
 export default function MealItemScreen({ route, navigation }) {
+  const { addFav, ids: favMealIds, removeFav } = useContext(FavouritesContext);
+
   const { mealId } = route.params;
+
+  const isFaved = favMealIds.includes(mealId);
+
   const meal = MEALS.find((meal) => meal.id === mealId);
+
+  function onHandlePress() {
+    if (isFaved) {
+      return removeFav(mealId);
+    }
+    if (!isFaved) {
+      return addFav(mealId);
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       title: meal.title,
       headerRight: () => {
-        return <FavBtn />;
+        return <FavBtn isFaved={isFaved} onHandlePress={onHandlePress} />;
       },
     });
-  }, [mealId, navigation]);
+  }, [mealId, navigation, isFaved]);
 
   return (
     <ScrollView contentContainerStyle={styles.outerContainer}>
